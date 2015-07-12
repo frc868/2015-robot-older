@@ -6,14 +6,12 @@ import org.usfirst.frc.team868.robot.subsystems.RobotFactory;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * 7 is left trigger 8 is right trigger
+ *
  */
 public class ToggleWheels extends Command {
 
 	private FeederSubsystem feeder;
-
-	private boolean bool = false;
-
+	
 	public ToggleWheels() {
 		feeder = RobotFactory.getInstance().getFeeder();
 		requires(feeder);
@@ -31,7 +29,7 @@ public class ToggleWheels extends Command {
 	}
 
 	protected boolean isFinished() {
-		return bool;
+		return true;
 	}
 
 	protected void end() {

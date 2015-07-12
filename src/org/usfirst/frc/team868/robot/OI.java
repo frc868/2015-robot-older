@@ -2,11 +2,18 @@ package org.usfirst.frc.team868.robot;
 
 import org.usfirst.frc.team868.robot.commands.CanGrabber.GrabCan;
 import org.usfirst.frc.team868.robot.commands.CanGrabber.ReleaseCan;
+import org.usfirst.frc.team868.robot.commands.Elevator.Down;
+import org.usfirst.frc.team868.robot.commands.Elevator.StopElevator;
+import org.usfirst.frc.team868.robot.commands.Elevator.ToggleInOut;
+import org.usfirst.frc.team868.robot.commands.Elevator.Up;
 import org.usfirst.frc.team868.robot.commands.Feeder.BringToteIn;
-import org.usfirst.frc.team868.robot.commands.Feeder.FeederIn;
-import org.usfirst.frc.team868.robot.commands.Feeder.FeederOut;
+import org.usfirst.frc.team868.robot.commands.Feeder.PullLeft;
+import org.usfirst.frc.team868.robot.commands.Feeder.PullRight;
+import org.usfirst.frc.team868.robot.commands.Feeder.PushLeft;
+import org.usfirst.frc.team868.robot.commands.Feeder.PushRight;
 import org.usfirst.frc.team868.robot.commands.Feeder.PushToteOut;
-import org.usfirst.frc.team868.robot.commands.Feeder.ToggleFeeder;
+import org.usfirst.frc.team868.robot.commands.Feeder.StopLeft;
+import org.usfirst.frc.team868.robot.commands.Feeder.StopRight;
 import org.usfirst.frc.team868.robot.commands.Feeder.ToggleWheels;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,7 +31,10 @@ public class OI {
 	// joystick.
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
-	Joystick operator = new Joystick(0);
+
+	static Joystick driver = new Joystick(0);
+
+	// static Joystick operator = new Joystick(1);
 
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
@@ -47,25 +57,63 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 
 	private void setUpSmartDashboard() {
-		SmartDashboard.putData("Grab Can", new GrabCan());
-		SmartDashboard.putData("Release Can", new ReleaseCan());
+		// SmartDashboard.putData("Grab Can", new GrabCan());
+		// SmartDashboard.putData("Release Can", new ReleaseCan());
 
-		SmartDashboard.putData("Put Feeder Arms In", new FeederIn());
-		SmartDashboard.putData("Put Feeder Arms Out", new FeederOut());
-		SmartDashboard.putData("Bring Tote In", new BringToteIn());
-		SmartDashboard.putData("Push Tote Out", new PushToteOut());
+		// SmartDashboard.putData("Bring Tote In", new BringToteIn());
+		// SmartDashboard.putData("Push Tote Out", new PushToteOut());
 	}
 
-	private void setUpOperator() {
-		Button button1 = new JoystickButton(operator, 1);
-		button1.whenPressed(new ToggleFeeder());
+	private void setUpDriver() {
+		Button button1 = new JoystickButton(driver, 1);
+		button1.whenPressed(new ToggleInOut());
 
-		Button button2 = new JoystickButton(operator, 2);
-		button2.whenPressed(new ToggleWheels());
+		Button button2 = new JoystickButton(driver, 2);
+		button2.whenPressed(new Down());
+		button2.whenReleased(new StopElevator());
+
+		Button button3 = new JoystickButton(driver, 3);
+		button3.whenPressed(new ToggleInOut());
+
+		Button button4 = new JoystickButton(driver, 4);
+		button4.whenPressed(new Up());
+		button4.whenReleased(new StopElevator());
+
+		Button button5 = new JoystickButton(driver, 5);
+		button5.whenPressed(new PullLeft());
+		button5.whenReleased(new StopLeft());
+
+		Button button6 = new JoystickButton(driver, 6);
+		button6.whenPressed(new PullRight());
+		button6.whenReleased(new StopRight());
+
+		Button button7 = new JoystickButton(driver, 7);
+		button7.whenPressed(new PushLeft());
+		button7.whenReleased(new StopLeft());
+
+		Button button8 = new JoystickButton(driver, 8);
+		button8.whenPressed(new PushRight());
+		button8.whenReleased(new StopRight());
 	}
 
 	public void initialize() {
 		setUpSmartDashboard();
-		setUpOperator();
+		setUpDriver();
+	}
+
+	public static double getLeftXAxis() {
+		return driver.getRawAxis(0);
+	}
+
+	public static double getLeftYAxis() {
+		return driver.getRawAxis(1);
+	}
+
+	public static double getRightXAxis() {
+		return driver.getRawAxis(2);
+	}
+
+	public static double getRightYAxis() {
+		return driver.getRawAxis(3);
 	}
 }

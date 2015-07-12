@@ -2,6 +2,8 @@ package org.usfirst.frc.team868.robot;
 
 import org.usfirst.frc.team868.robot.commands.ExampleCommand;
 import org.usfirst.frc.team868.robot.subsystems.CanGrabberSubsystem;
+import org.usfirst.frc.team868.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team868.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team868.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team868.robot.subsystems.FeederSubsystem;
 import org.usfirst.frc.team868.robot.subsystems.RobotFactory;
@@ -24,6 +26,11 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 
+	private CanGrabberSubsystem cg;
+	private FeederSubsystem feeder;
+	private ElevatorSubsystem elevator;
+	private DriveSubsystem drive;
+
 	Command autonomousCommand;
 
 	/**
@@ -34,6 +41,11 @@ public class Robot extends IterativeRobot {
 		RobotFactory.getInstance();
 		oi = new OI();
 		oi.initialize();
+
+		cg = RobotFactory.getInstance().getCanGrabber();
+		feeder = RobotFactory.getInstance().getFeeder();
+		elevator = RobotFactory.getInstance().getElevator();
+		drive = RobotFactory.getInstance().getDrive();
 
 		autonomousCommand = new ExampleCommand();
 	}
@@ -81,18 +93,25 @@ public class Robot extends IterativeRobot {
 	}
 
 	private void updateDashboard() {
-		CanGrabberSubsystem cg = RobotFactory.getInstance().getCanGrabber();
-		FeederSubsystem feeder = RobotFactory.getInstance().getFeeder();
 
-		SmartDashboard.putBoolean("Can Grabber Open", cg.isOpen());
+		// SmartDashboard.putBoolean("Can Grabber Open", cg.isOpen());
 
 		// SmartDashboard.putNumber("Left Sensor", feeder.getLeftSensor());
 		// SmartDashboard.putNumber("Right Sensor", feeder.getRightSensor());
 		// SmartDashboard.putBoolean("Feeder Arms In", feeder.isFeederIn());
 		// SmartDashboard.putBoolean("Tote is In", feeder.isToteIn());
-		SmartDashboard.putNumber("Speed of Left Wheel", feeder.getLeftSpeed());
-		SmartDashboard.putNumber("Speed of Right Wheel", feeder.getRightSpeed());
-		SmartDashboard.putBoolean("Wheels Spinning", feeder.isSpinning());
+		// SmartDashboard.putNumber("Speed of Left Wheel",
+		// feeder.getLeftSpeed());
+		// SmartDashboard.putNumber("Speed of Right Wheel",
+		// feeder.getRightSpeed());
+		// SmartDashboard.putBoolean("Wheels Spinning", feeder.isSpinning());
+
+		SmartDashboard.putNumber("Elevator Height", elevator.getEncDistance());
+		
+		SmartDashboard.putNumber("Left Motor Speed", drive.getLeftSpeed());
+		SmartDashboard.putNumber("Right Motor Speed", drive.getRightSpeed());
+		SmartDashboard.putNumber("Left Motor Power", drive.getLeftPower());
+		SmartDashboard.putNumber("Right Motor Power", drive.getRightPower());
 	}
 
 	/**

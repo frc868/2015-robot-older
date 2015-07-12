@@ -56,11 +56,19 @@ public class FeederSubsystem extends Subsystem {
 	}
 
 	public void inRightWheel() {
-		rightMotor.set(0.5);
+		rightMotor.set(-0.5);
 	}
 
 	public void outRightWheel() {
-		rightMotor.set(-0.5);
+		rightMotor.set(0.5);
+	}
+	
+	public void stopLeftWheel(){
+		leftMotor.set(0);
+	}
+	
+	public void stopRightWheel(){
+		rightMotor.set(0);
 	}
 
 	public void pullBothMotors() {
@@ -105,16 +113,12 @@ public class FeederSubsystem extends Subsystem {
 		return sol.get();
 	}
 
-	// NEEDS FIXING
 	public boolean isSpinning() {
-		return rightMotor.getSpeed() != 0 && leftMotor.getSpeed() != 0;
+		return rightMotor.get() != 0 && leftMotor.get() != 0;
 	}
 
 	public boolean isToteIn() {
-		if (getMinimumEncoderDistance() >= 1.75)
-			return true;
-		else
-			return false;
+		return getMinimumEncoderDistance() >= 1.75;
 	}
 	
 	public double getLeftSpeed(){
